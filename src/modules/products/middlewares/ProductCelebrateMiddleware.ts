@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export class CelebrateMiddleware {
+export class ProductCelebrateMiddleware {
   show() {
     return celebrate({
       [Segments.PARAMS]: {
