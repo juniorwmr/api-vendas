@@ -1,23 +1,13 @@
 import { Router } from 'express';
 
-const router = Router();
+import { productsRouter } from './products.routes';
 
-router
-  .get('/', (request, response) => {
-    return response.json({ message: 'Hello, Dev!' });
-  })
+const routes = Router();
 
-  .get('/users', (request, response) => {
-    return response.json([
-      {
-        id: 1,
-        name: 'Washington Muniz',
-      },
-      {
-        id: 2,
-        name: 'André Luiz',
-      },
-    ]);
-  });
+routes.use('/products', productsRouter);
 
-export { router };
+routes.get('/', (request, response) => {
+  return response.json({ message: 'Hello Dev!' });
+});
+
+export { routes };
