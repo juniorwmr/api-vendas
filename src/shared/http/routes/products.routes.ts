@@ -1,13 +1,18 @@
-import { ProductController } from '@modules/products/controllers/ProductController';
 import { Router } from 'express';
+
+import { ProductController } from '@modules/products/controllers/ProductController';
+import { CelebrateMiddleware } from '@modules/products/middlewares/CelebrateMiddleware';
 
 const productsRouter = Router();
 
 const productController = new ProductController();
-productsRouter.get('/', productController.index);
-productsRouter.get('/:id', productController.show);
-productsRouter.post('/', productController.create);
-productsRouter.put('/', productController.update);
-productsRouter.delete('/:id', productController.delete);
+const celebrateMiddleware = new CelebrateMiddleware();
+
+productsRouter
+  .get('/', productController.index)
+  .get('/:id', celebrateMiddleware.show(), productController.show)
+  .post('/', celebrateMiddleware.create(), productController.create)
+  .put('/:id', celebrateMiddleware.update(), productController.update)
+  .delete('/:id', celebrateMiddleware.delete(), productController.delete);
 
 export { productsRouter };
