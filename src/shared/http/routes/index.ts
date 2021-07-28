@@ -6,8 +6,8 @@ import { AuthRouter } from '@modules/users/routes/auth.routes';
 
 const routes = Router();
 
-routes.use('/users', usersRouter);
 routes.use('/products', productsRouter);
 routes.use('/auth', AuthRouter);
+routes.use('/users', usersRouter);
 
 export { routes };

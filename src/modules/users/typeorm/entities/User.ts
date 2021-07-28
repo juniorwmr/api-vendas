@@ -6,10 +6,10 @@ import {
   UpdateDateColumn,
   BeforeInsert,
 } from 'typeorm';
-import { compare, hash } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import { secretKey } from '@config/jwt';
+import { secretKey, expiresIn } from '@config/auth';
 
 @Entity('users')
 export class User {
@@ -22,7 +22,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column()
@@ -39,12 +39,7 @@ export class User {
     this.password = await hash(this.password, 10);
   }
 
-  async comparePassword(attempt: string): Promise<boolean> {
-    return await compare(attempt, this.password);
-  }
-
   createToken(user: User) {
-    const expiresIn = '10m';
     const accessToken = jwt.sign(
       {
         id: user.id,
