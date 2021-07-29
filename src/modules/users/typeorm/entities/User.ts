@@ -9,7 +9,7 @@ import {
 import { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import { secretKey, expiresIn } from '@config/auth';
+import { secretKey, expiresIn } from '../../../../config/auth';
 
 @Entity('users')
 export class User {
