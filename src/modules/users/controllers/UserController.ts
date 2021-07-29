@@ -10,10 +10,6 @@ export class UserController {
     return response.status(200).json(users);
   }
 
-  public async show(request: Request, response: Response): Promise<Response> {
-    return response.status(200);
-  }
-
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, email, password } = request.body;
 
@@ -25,13 +21,5 @@ export class UserController {
     });
 
     return response.status(201).json(product);
-  }
-
-  public async update(request: Request, response: Response): Promise<Response> {
-    return response.status(200);
-  }
-
-  public async delete(request: Request, response: Response): Promise<Response> {
-    return response.status(203);
   }
 }
