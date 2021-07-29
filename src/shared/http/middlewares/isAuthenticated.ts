@@ -3,21 +3,31 @@ import { verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { secretKey } from '@config/auth';
 
+interface ITokenPayload {
+  id: string;
+  iat: number;
+  exp: number;
+}
+
 export function isAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
 ): void {
-  const authHeader = request.headers.authorization;
+  const authHeader: string | undefined = request.headers.authorization;
 
   if (!authHeader) {
     throw new AppError('JWT Token is missing.');
   }
 
-  const [, token] = authHeader.split(' ');
+  const [, token]: string[] = authHeader.split(' ');
 
   try {
-    const decodeToken = verify(token, secretKey);
+    const { id } = verify(token, secretKey) as ITokenPayload;
+
+    request.user = {
+      id,
+    };
 
     return next();
   } catch (err) {
