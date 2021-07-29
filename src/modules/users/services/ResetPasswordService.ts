@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 
 import { User } from '@modules/users/typeorm/entities/User';
 import { UserRepository } from '@modules/users/typeorm/repositories/UserRepository';
-import { UserTokenRepository } from '@modules/usersToken/typeorm/repositories/UserTokenRepository';
+import { UserTokenRepository } from '@modules/user_tokens/typeorm/repositories/UserTokenRepository';
 import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {

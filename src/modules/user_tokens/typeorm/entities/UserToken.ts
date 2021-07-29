@@ -1,3 +1,4 @@
+import { User } from '../../../../modules/users/typeorm/entities/User';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,9 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Generated,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
-@Entity('usersToken')
+@Entity('user_tokens')
 export class UserToken {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -16,7 +19,7 @@ export class UserToken {
   @Generated('uuid')
   token: string;
 
-  @Column()
+  @Column('uuid')
   user_id: string;
 
   @CreateDateColumn()
