@@ -1,36 +1,13 @@
 import 'reflect-metadata';
 
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import 'express-async-errors';
-import cors from 'cors';
-import { errors as celebrateErrors } from 'celebrate';
-import { routes } from '@shared/http/routes';
-import { AppError } from '@shared/errors/AppError';
+
 import '@shared/typeorm';
+import { App } from './app';
 
-const app = express();
+const server = express();
 
-app.use(cors());
-app.use(express.json());
-app.use('/v1', routes);
+App(server);
 
-app.use(celebrateErrors());
-app.use(
-  (error: Error, request: Request, response: Response, next: NextFunction) => {
-    if (error instanceof AppError) {
-      return response.status(error.statusCode).json({
-        status: 'error',
-        message: error.message,
-      });
-    }
-
-    console.log(error);
-
-    return response.status(500).json({
-      status: 'error',
-      message: 'Internal server error',
-    });
-  },
-);
-
-app.listen(3333, () => console.log('Server running.'));
+server.listen(3333, () => console.log('Server running.'));
