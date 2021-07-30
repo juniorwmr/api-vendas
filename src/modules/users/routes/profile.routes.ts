@@ -12,11 +12,7 @@ const profileController = new ProfileController();
 const profileCelebrateMiddleware = new ProfileCelebrateMiddleware();
 
 profileRouter
-  .get('/', isAuthenticated, profileController.show)
-  .put(
-    '/',
-    [isAuthenticated, profileCelebrateMiddleware.update()],
-    profileController.update,
-  );
+  .get('/', profileController.show)
+  .put('/', profileCelebrateMiddleware.update(), profileController.update);
 
 export { profileRouter };
