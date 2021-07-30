@@ -3,23 +3,22 @@ import { getCustomRepository } from 'typeorm';
 import { Product } from '../typeorm/entities/Product';
 import { ProductRepository } from '../typeorm/repositories/ProductRepository';
 
-interface IPaginationProduct {
-  from: number;
-  to: number;
-  per_page: number;
-  total: number;
-  current_page: number;
-  prev_page: number | null;
-  next_page: number | null;
-  last_page: number;
-  data: Product[];
-}
+import { RedisCache } from '@shared/cache/RedisCache';
 
 export class ListProductService {
-  public async execute(): Promise<IPaginationProduct> {
+  public async execute(): Promise<Product[]> {
     const productRepository = getCustomRepository(ProductRepository);
-    const products = await productRepository.createQueryBuilder().paginate();
 
-    return products as IPaginationProduct;
+    const redisCache = new RedisCache();
+
+    let products = await redisCache.recover<Product[]>(
+      'api-vendas-PRODUCT_LIST',
+    );
+    if (!products) {
+      products = await productRepository.find();
+      await redisCache.save('api-vendas-PRODUCT_LIST', products);
+    }
+
+    return products;
   }
 }

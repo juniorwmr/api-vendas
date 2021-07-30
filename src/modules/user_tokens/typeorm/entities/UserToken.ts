@@ -1,4 +1,3 @@
-import { User } from '../../../../modules/users/typeorm/entities/User';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,8 +5,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Generated,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
 
 @Entity('user_tokens')
