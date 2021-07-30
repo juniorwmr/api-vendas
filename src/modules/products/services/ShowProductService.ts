@@ -14,6 +14,7 @@ export class ShowProductService {
     if (!product) {
       throw new AppError('Product not found.');
     }
+
     return product;
   }
 }

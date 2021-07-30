@@ -1,7 +1,9 @@
 import { getCustomRepository } from 'typeorm';
+
 import { Product } from '../typeorm/entities/Product';
 import { ProductRepository } from '@modules/products/typeorm/repositories/ProductRepository';
 import { AppError } from '@shared/errors/AppError';
+import { RedisCache } from '@shared/cache/RedisCache';
 
 interface IProductRequest {
   id: string;
@@ -26,6 +28,9 @@ export class UpdateProductService {
     ) {
       throw new AppError('There is already one product with this name.');
     }
+
+    const redisCache = new RedisCache();
+    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     Object.keys(product).forEach((key: string) => {
       (product as any)[key] = (requestData as any)[key];
