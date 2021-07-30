@@ -10,11 +10,14 @@ import { pagination } from 'typeorm-pagination';
 
 import { routes } from '@shared/http/routes';
 import { AppError } from '@shared/errors/AppError';
+import { rateLimiter } from './middlewares/rateLimiter';
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
+
+server.use(rateLimiter);
 
 server.use(pagination);
 server.use('/v1', routes);
