@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Exclude, Expose } from 'class-transformer';
 
 import { secretKey, expiresIn } from '../../../../config/auth';
 
@@ -23,6 +24,7 @@ export class User {
   email: string;
 
   @Column({ select: false })
+  @Exclude()
   password: string;
 
   @Column()
@@ -33,6 +35,15 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    if (!this.avatar) {
+      return null;
+    }
+
+    return `${process.env.APP_API_URL}/files/${this.avatar}`;
+  }
 
   @BeforeInsert()
   async hashPassword() {

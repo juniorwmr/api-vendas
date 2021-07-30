@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
+
 import { ShowProfileService } from '../services/ShowProfileService';
 import { UpdateProfileService } from '../services/UpdateProfileService';
 
@@ -16,6 +18,6 @@ export class ProfileController {
     const updateProfileService = new UpdateProfileService();
 
     const user = await updateProfileService.execute(requestData);
-    return response.status(200).json(user);
+    return response.status(200).json(classToClass(user));
   }
 }

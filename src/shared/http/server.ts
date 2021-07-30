@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 import 'express-async-errors';
 import '@shared/typeorm';
 
@@ -37,4 +38,6 @@ server.use(
   },
 );
 
-server.listen(3333, () => console.log('Server running.'));
+server.listen(process.env.APP_PORT || 3333, () =>
+  console.log('Server running.'),
+);
